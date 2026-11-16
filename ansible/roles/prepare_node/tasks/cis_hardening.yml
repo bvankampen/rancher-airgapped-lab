@@ -22,7 +22,7 @@
         group: etcd
         mode: 0700
         state: directory
-  when: "'rancher' in group_names or is_server | default(false)"
+  when: "'rancher' in group_names or is_server | default(false) or 'control_plane' in group_names"
 
 - name: "Create RKE2 CIS sysctl configuration"
   ansible.builtin.copy:
