@@ -1,0 +1,27 @@
+---
+- name: "Disable swap"
+  ansible.builtin.systemd:
+    name: swap.target
+    state: stopped
+    enabled: no
+
+- name: "Disable swap"
+  ansible.builtin.shell:
+    cmd: swapoff -a
+
+- name: "Path and Environment variables for kubectl and RKE2"
+  ansible.builtin.lineinfile:
+    path: /root/.bashrc
+    state: present
+    create: true
+    line: "{{ item }}"
+  with_items:
+    - "# Added by Rancher RKE2 install script"
+    - "export PATH=$PATH:/var/lib/rancher/rke2/bin"
+    - "export KUBECONFIG=/etc/rancher/rke2/rke2.yaml"
+    - "export CONTAINER_RUNTIME_ENDPOINT=unix:///run/k3s/containerd/containerd.sock"
+    - "export CONTAINERD_ADDRESS=/run/k3s/containerd/containerd.sock"
+    - "export CONTAINERD_NAMESPACE=k8s.io"
+    - "source <(kubectl completion bash)"
+    - "alias k=kubectl"
+    - "complete -o default -F __start_kubectl k"

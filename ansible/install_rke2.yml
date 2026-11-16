@@ -1,0 +1,19 @@
+---
+- name: "Install RKE2"
+  hosts:
+    - rancher
+    - registry
+  serial: 1
+  gather_facts: true
+  ignore_unreachable: true
+  roles:
+    - install_rke2
+
+- name: "Fetch and configure kubeconfig"
+  hosts:
+    - rancher[0]
+    - registry
+  gather_facts: false
+  become: false
+  roles:
+    - fetch_kubeconfig

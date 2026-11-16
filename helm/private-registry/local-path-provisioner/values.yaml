@@ -1,0 +1,11 @@
+global:
+  imagePullSecrets:
+    - application-collection
+storageClass:
+  create: true
+  defaultClass: true
+  pathPattern: "{{ .PVC.Namespace }}/{{ .PVC.Name }}/"
+nodePathMap:
+  - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+    paths:
+      - /data

@@ -1,0 +1,27 @@
+---
+- name: "Ensure target OS is Rocky Linux or RedHat-based"
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['os_family'] == 'RedHat'
+    fail_msg: "This role requires a RedHat-based distribution (e.g., Rocky Linux). Detected: {{ ansible_facts['os_family'] | default('unknown') }}"
+  when: ansible_facts['os_family'] is defined
+
+- name: "Find all repository files in {{ yum_repo_dir }}"
+  ansible.builtin.find:
+    paths: "{{ yum_repo_dir }}"
+    patterns: "*.repo"
+  register: disable_yum_repos_found
+
+- name: "Disable all repositories in .repo files (set enabled=0)"
+  ansible.builtin.replace:
+    path: "{{ item.path }}"
+    regexp: '^(\s*enabled\s*=\s*)(?:1|[Tt]rue|[Yy]es)\b'
+    replace: '\g<1>0'
+  loop: "{{ disable_yum_repos_found.files | default([]) }}"
+  loop_control:
+    label: "{{ item.path }}"
+
+- name: "Clean DNF cache"
+  ansible.builtin.command:
+    cmd: dnf clean all
+  changed_when: true

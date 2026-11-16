@@ -1,0 +1,5 @@
+---
+rke2_version: "{{ rancher_rke2_version | default('v1.36.5+rke2r1') }}"
+rke2_artifact_remote_dir: "/opt/rke2/artifacts"
+rke2_type: "{{ 'server' if ('rancher' in group_names or 'control_plane' in group_names or is_server | default(false)) else 'agent' }}"
+rke2_service_name: "rke2-{{ rke2_type }}"

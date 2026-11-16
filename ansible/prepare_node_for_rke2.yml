@@ -1,0 +1,7 @@
+---
+- name: "Prepare Node for RKE2"
+  hosts: all
+  gather_facts: true
+  ignore_unreachable: true
+  roles:
+    - prepare_node

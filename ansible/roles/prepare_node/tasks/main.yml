@@ -1,0 +1,20 @@
+---
+- name: "Install Root CA"
+  ansible.builtin.include_tasks: root_ca.yml
+
+- name: "Create files and directories"
+  ansible.builtin.include_tasks: files.yml
+  when: "'rancher' in group_names or 'registry' in group_names"
+
+- name: "Copy RKE2 installation files"
+  ansible.builtin.include_tasks: copy_artefacts.yml
+  when: "'rancher' in group_names or 'registry' in group_names"
+
+- name: "CIS Hardening"
+  ansible.builtin.include_tasks: cis_hardening.yml
+
+- name: "Config Node"
+  ansible.builtin.include_tasks: config.yml
+
+- name: "Configure Firewall"
+  ansible.builtin.include_tasks: firewall.yml

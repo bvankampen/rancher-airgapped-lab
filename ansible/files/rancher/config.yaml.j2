@@ -1,0 +1,12 @@
+{% if not first_rancher_node | default(false) %}
+server: "https://{{ hostvars[groups['rancher'][0]]['ansible_host'] }}:9345"
+{% endif %}
+token: "{{ rancher_rke2_token }}"
+cni: "{{ rancher_cni }}"
+profile: "{{ rancher_cis_profile }}"
+selinux: "{{ rancher_selinux  }}"
+{% if rancher_cis_profile == "cis" %}
+pod-security-admission-config-file: "/etc/rancher/rke2/rancher-psact.yaml"
+{% endif %}
+system-default-registry: "registry.rancher.com"
+prime: true

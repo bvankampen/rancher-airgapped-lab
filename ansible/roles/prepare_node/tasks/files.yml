@@ -1,0 +1,13 @@
+---
+- name: "Create Rancher directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop: "{{ rancher_directories | default([]) }}"
+
+- name: "Create Files"
+  ansible.builtin.template:
+    src: "{{ rancher_files_path }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    force: "{{ item.force | default('yes') }}"
+  loop: "{{ rancher_files | default([]) }}"

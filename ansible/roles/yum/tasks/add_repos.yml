@@ -1,0 +1,8 @@
+- name: "Add mirror repositories"
+  ansible.builtin.yum_repository:
+    name: "{{ item.name }}"
+    baseurl: "{{ item.baseurl }}"
+    description: "{{ item.description }}"
+    gpgcheck: no
+    enabled: yes
+  loop: "{{ rmt_repos | default([])}}"

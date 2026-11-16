@@ -1,0 +1,21 @@
+---
+- name: "Ensure CA trust anchor directory exists"
+  ansible.builtin.file:
+    path: /etc/pki/ca-trust/source/anchors
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: "Copy Root CA certificate to trust store"
+  ansible.builtin.copy:
+    src: "{{ root_ca_file | default(playbook_dir ~ '/files/root-ca.pem') }}"
+    dest: /etc/pki/ca-trust/source/anchors/root-ca.pem
+    owner: root
+    group: root
+    mode: "0644"
+  register: root_ca_cert
+
+- name: "Update CA trust store"
+  ansible.builtin.command: update-ca-trust extract
+  when: root_ca_cert is changed

@@ -1,0 +1,7 @@
+---
+- name: "Disable Rocky Linux repositories and add local repositories."
+  hosts: all
+  gather_facts: true
+  ignore_unreachable: true
+  roles:
+    - yum

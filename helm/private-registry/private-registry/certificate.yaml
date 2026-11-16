@@ -1,0 +1,3 @@
+kubectl -n private-registry create secret tls tls-registry-test \
+--cert=tls.crt \
+--key=tls.key

@@ -1,0 +1,8 @@
+hostname: rancher-test.lab.suse
+replicas: 3
+systemDefaultRegistry: registry.lab.suse
+useBundledSystemChart: true
+ingress:
+  tls:
+    source: secret
+privateCA: true

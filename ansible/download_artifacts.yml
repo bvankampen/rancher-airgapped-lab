@@ -1,0 +1,7 @@
+---
+- name: "Download RKE2 artifacts"
+  hosts: localhost
+  gather_facts: false
+  become: false
+  roles:
+    - download_artifacts

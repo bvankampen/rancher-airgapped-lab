@@ -1,0 +1,8 @@
+# RKE2 Files for airgapped installation
+
+rancher_rke2_images_files:
+  - "rke2-images.linux-amd64.tar.zst"
+  - "rke2-images-{{ rancher_cni }}.linux-amd64.tar.zst"
+rancher_rke2_files:
+  - "rke2.linux-amd64.tar.gz"
+  - "sha256sum-amd64.txt"

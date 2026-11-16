@@ -1,0 +1,5 @@
+global:
+  imagePullSecrets:
+    - application-collection
+crds:
+  enabled: true

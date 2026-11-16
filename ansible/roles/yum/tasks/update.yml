@@ -1,0 +1,19 @@
+---
+- name: "Update OS"
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: true
+
+- name: "Check if reboot is required"
+  ansible.builtin.command:
+    cmd: needs-restarting -r
+  register: reboot_required
+  failed_when: reboot_required.rc not in [0, 1]
+  changed_when: reboot_required.rc == 1
+
+- name: "Reboot host if required"
+  ansible.builtin.reboot:
+    msg: "Reboot initiated by Ansible after package updates"
+    reboot_timeout: 600
+  when: reboot_required.rc == 1

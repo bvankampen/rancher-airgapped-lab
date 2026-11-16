@@ -1,0 +1,40 @@
+---
+- name: "Check if RKE2 binary exists"
+  ansible.builtin.stat:
+    path: /usr/local/bin/rke2
+  register: rke2_binary_stat
+
+- name: "Check installed RKE2 version"
+  ansible.builtin.command: /usr/local/bin/rke2 --version
+  register: rke2_current_version
+  when: rke2_binary_stat.stat.exists
+  changed_when: false
+
+- name: "Ensure RKE2 installer script is executable"
+  ansible.builtin.file:
+    path: "{{ rke2_artifact_remote_dir }}/install.sh"
+    mode: "0755"
+
+- name: "Run RKE2 install script"
+  ansible.builtin.command:
+    cmd: "{{ rke2_artifact_remote_dir }}/install.sh"
+  environment:
+    INSTALL_RKE2_ARTIFACT_PATH: "{{ rke2_artifact_remote_dir }}"
+    INSTALL_RKE2_TYPE: "{{ rke2_type }}"
+    INSTALL_RKE2_METHOD: "tar"
+  when: not rke2_binary_stat.stat.exists or rke2_version not in rke2_current_version.stdout
+
+- name: "Ensure RKE2 systemd service is started and enabled"
+  ansible.builtin.systemd:
+    name: "{{ rke2_service_name }}"
+    state: started
+    enabled: true
+
+- name: "Wait for RKE2 server to be ready"
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 6443
+    delay: 5
+    timeout: 300
+  when: rke2_type == 'server'
+

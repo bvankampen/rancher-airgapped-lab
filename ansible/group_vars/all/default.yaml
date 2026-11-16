@@ -1,0 +1,4 @@
+project_path: "{{ playbook_dir | realpath }}"
+rancher_files_path: "{{ project_path }}/files/rancher"
+rke2_files_path: "{{ project_path }}/files/rke2"
+root_ca_file: "{{ project_path }}/files/root-ca.pem"

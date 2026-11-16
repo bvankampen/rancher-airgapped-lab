@@ -1,0 +1,5 @@
+---
+fetch_kubeconfig_remote_path: "/etc/rancher/rke2/rke2.yaml"
+fetch_kubeconfig_dest: "files/{{ rancher_loadbalancer }}.yaml"
+fetch_kubeconfig_cluster_name: "{{ rancher_clustername }}"
+fetch_kubeconfig_first_node_ip: "{{ hostvars[groups['rancher'][0]]['ansible_host'] }}"

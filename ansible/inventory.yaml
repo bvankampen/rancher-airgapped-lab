@@ -1,0 +1,39 @@
+---
+all:
+  vars:
+    ansible_user: suse
+    ansible_ssh_private_key_file: ~/.ssh/id_ecdsa
+  children:
+    rancher:
+      hosts:
+        lab-rancher-1:
+          ansible_host: 192.168.98.11
+          first_rancher_node: true
+        lab-rancher-2:
+          ansible_host: 192.168.98.12
+        lab-rancher-3:
+          ansible_host: 192.168.98.13
+    cluster:
+      children:
+        control_plane:
+          hosts:
+            lab-control-plane-1:
+              ansible_host: 192.168.98.21
+            lab-control-plane-2:
+              ansible_host: 192.168.98.22
+            lab-control-plane-3:
+              ansible_host: 192.168.98.23
+        worker:
+          hosts:
+            lab-worker-1:
+              ansible_host: 192.168.98.31
+            lab-worker-2:
+              ansible_host: 192.168.98.32
+            lab-worker-3:
+              ansible_host: 192.168.98.33
+    registry:
+      hosts:
+        lab-registry:
+          ansible_host: 192.168.98.41
+          first_rancher_node: true
+          is_server: true

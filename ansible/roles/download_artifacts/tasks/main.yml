@@ -1,0 +1,31 @@
+---
+- name: "Get Rancher Variables"
+  ansible.builtin.include_vars:
+    dir: "{{ project_path }}/group_vars/rancher"
+
+- name: "Set local path"
+  ansible.builtin.set_fact:
+    local_files_path: "{{ rke2_files_path}}/artifacts/{{ rancher_rke2_version }}"
+
+- name: "Create directory for RKE2 files"
+  ansible.builtin.file:
+    path: "{{ local_files_path }}"
+    state: directory
+
+- name: "Get RKE2 install files for version {{ rancher_rke2_version }}"
+  ansible.builtin.get_url:
+    url: "https://github.com/rancher/rke2/releases/download/{{ rancher_rke2_version }}/{{ item }}"
+    dest: "{{ local_files_path }}/{{ item }}"
+  loop: "{{ rancher_rke2_files }}"
+
+- name: "Get RKE2 installer script"
+  ansible.builtin.get_url:
+    url: "https://get.rke2.io"
+    dest: "{{ local_files_path }}/install.sh"
+
+- name: "Get RKE2 image tar files for version {{ rancher_rke2_version }}"
+  ansible.builtin.get_url:
+    url: "https://github.com/rancher/rke2/releases/download/{{ rancher_rke2_version }}/{{ item }}"
+    dest: "{{ local_files_path }}/{{ item }}"
+  loop: "{{ rancher_rke2_image_files }}"
+  when: use_rke2_artifacts | default(false)

@@ -1,0 +1,12 @@
+---
+- name: "Disable current repositories"
+  ansible.builtin.include_tasks: disable_repos.yml
+
+- name: "Add mirror repositories"
+  ansible.builtin.include_tasks: add_repos.yml
+
+- name: "Install packages"
+  ansible.builtin.include_tasks: install.yml
+
+- name: "Update and reboot if needed"
+  ansible.builtin.include_tasks: update.yml

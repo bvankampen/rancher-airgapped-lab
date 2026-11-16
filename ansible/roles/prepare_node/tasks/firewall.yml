@@ -1,0 +1,52 @@
+---
+- name: "Ensure firewalld is running and enabled"
+  ansible.builtin.systemd:
+    name: firewalld
+    state: started
+    enabled: true
+
+- name: "Enable masquerade on public zone"
+  ansible.posix.firewalld:
+    zone: public
+    masquerade: true
+    state: enabled
+    permanent: true
+    immediate: true
+
+- name: "Allow Pod and Service CIDRs in trusted zone"
+  ansible.posix.firewalld:
+    zone: trusted
+    source: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  loop:
+    - "{{ rke2_cluster_cidr | default('10.42.0.0/16') }}"
+    - "{{ rke2_service_cidr | default('10.43.0.0/16') }}"
+
+- name: "Allow common RKE2 and Cilium ports on all nodes"
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  loop:
+    - 8472/udp # Cilium VXLAN overlay
+    - 4240/tcp # Cilium health check
+    - 10250/tcp # Kubelet API
+    - 80/tcp # Ingress HTTP (Traefik/Rancher)
+    - 443/tcp # Ingress HTTPS (Traefik/Rancher)
+    - 30000-32767/tcp # NodePort TCP
+    - 30000-32767/udp # NodePort UDP
+
+- name: "Allow RKE2 Server control plane ports"
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    state: enabled
+    permanent: true
+    immediate: true
+  loop:
+    - 6443/tcp # Kubernetes API Server
+    - 9345/tcp # RKE2 Supervisor API
+    - 2379-2380/tcp # etcd client and peer
+  when: "'rancher' in group_names or 'control_plane' in group_names or is_server | default(false)"

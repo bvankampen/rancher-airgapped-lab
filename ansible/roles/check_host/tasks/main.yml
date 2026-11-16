@@ -1,0 +1,4 @@
+---
+- name: "Verify host is reachable via Ansible ping"
+  ansible.builtin.ping:
+  register: check_host_ping_result

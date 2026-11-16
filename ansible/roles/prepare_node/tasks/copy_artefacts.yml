@@ -1,0 +1,28 @@
+- name: "Set paths"
+  ansible.builtin.set_fact:
+    local_files_path: "{{ rke2_files_path}}/artifacts/{{ rancher_rke2_version }}"
+    remote_files_path: "/opt/rke2/artifacts"
+    remote_image_path: ""
+
+- name: "Create directory for RKE2 files"
+  ansible.builtin.file:
+    path: "{{ remote_files_path }}"
+    state: directory
+
+- name: "Upload RKE2 install files for version {{ rancher_rke2_version }}"
+  ansible.builtin.copy:
+    src: "{{ local_files_path }}/{{ item }}"
+    dest: "{{ remote_files_path }}/{{ item }}"
+  loop: "{{ rancher_rke2_files }}"
+
+- name: "Upload RKE2 installer script"
+  ansible.builtin.copy:
+    src: "{{ local_files_path }}/install.sh"
+    dest: "{{ remote_files_path }}/install.sh"
+
+- name: "Upload RKE2 install image tar files for version {{ rancher_rke2_version }}"
+  ansible.builtin.copy:
+    src: "{{ local_files_path }}/{{ item }}"
+    dest: "{{ remote_files_path }}/{{ item }}"
+  loop: "{{ rancher_rke2_images_files }}"
+  when: use_rke2_iamge_artifacts | default(false)

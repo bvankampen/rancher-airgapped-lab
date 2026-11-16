@@ -1,0 +1,4 @@
+export APPCO_USERNAME=<see apps.rancher.io>
+export APPCO_PASSWORD=<see apps.rancher.io>
+export SUSE_REGISTRY_USERNAME=<see scc>
+export SUSE_REGISTRY_PASSWORD=<see scc>
