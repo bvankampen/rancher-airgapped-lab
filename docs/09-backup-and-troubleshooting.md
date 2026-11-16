@@ -154,7 +154,7 @@ If certificates must be rotated early:
    Expected response: `ok` (HTTP 200).
 3. If curl fails, check if the Ingress controller is running:
    ```bash
-   kubectl get pods -n kube-system -l app.kubernetes.io/name=rke2-ingress-nginx
+   kubectl get pods -n kube-system | grep -E 'ingress|traefik'
    ```
 4. Check firewalld on the node:
    ```bash

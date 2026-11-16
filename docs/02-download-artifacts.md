@@ -232,6 +232,8 @@ chmod +x download-hauler.sh
 ./download-hauler.sh
 ```
 
+*(Note: The `hauler/artifacts.sh` script in this repository also supports downloading additional Rancher ecosystem charts such as `neuvector`, `rancher-backup`, `rancher-compliance`, `rancher-logging`, `rancher-monitoring-dashboards`, and `prometheus-operator`).*
+
 ---
 
 ## 6. Move Artifacts into the Air Gap

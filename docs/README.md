@@ -78,6 +78,9 @@ Follow the steps in this order:
 - **[9. Operations, Backup, and Troubleshooting](09-backup-and-troubleshooting.md)**  
   Check cluster health, view logs, restart services, and troubleshoot common errors.
 
+- **[10. Downstream RKE2 Cluster Provisioning](10-downstream-cluster.md)**  
+  Prepare downstream nodes and provision a hardened RKE2 workload cluster from Rancher.
+
 ---
 
 ## Exporting Documentation to PDF

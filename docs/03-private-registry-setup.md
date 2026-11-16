@@ -51,6 +51,8 @@ vm.panic_on_oom=0
 vm.overcommit_memory=1
 kernel.panic=10
 kernel.panic_on_oops=1
+net.ipv4.conf.all.forwarding=1
+net.ipv6.conf.all.forwarding=1
 EOF
 
 sysctl --system
@@ -200,7 +202,7 @@ kubectl label namespace local-path-provisioner pod-security.kubernetes.io/enforc
 kubectl label namespace local-path-provisioner pod-security.kubernetes.io/warn=privileged --overwrite
 kubectl label namespace local-path-provisioner pod-security.kubernetes.io/warn-version=latest --overwrite
 kubectl label namespace local-path-provisioner pod-security.kubernetes.io/audit=privileged --overwrite
-kubectl label namespace local-path-provisioner pod-security.kubernetes.io/audit=latest --overwrite
+kubectl label namespace local-path-provisioner pod-security.kubernetes.io/audit-version=latest --overwrite
 ```
 
 ### Step 4.2: Create Pull Secret (If pulling from dp.apps.rancher.io)
