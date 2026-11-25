@@ -25,3 +25,6 @@ rancher_cis_profile: cis
 rancher_selinux: true
 
 rancher_rke2_version: v1.36.5+rke2r1
+
+lpp_selinux_data_dir: "/var/lib/rancher/data"
+lpp_selinux_type: "container_file_t"

@@ -8,4 +8,4 @@ storageClass:
 nodePathMap:
   - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
     paths:
-      - /data
+      - /var/lib/rancher/data

@@ -18,3 +18,7 @@
 
 - name: "Configure Firewall"
   ansible.builtin.include_tasks: firewall.yml
+
+- name: "Set SELINUX label on local-path-provisioner directory"
+  ansible.builtin.include_tasks: selinux_lpp.yml
+  when: "'registry' in group_names"

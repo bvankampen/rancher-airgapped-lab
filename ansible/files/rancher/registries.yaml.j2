@@ -7,13 +7,14 @@ mirrors:
     endpoint:
       - https://registry-test.lab.suse
     rewrite:
-      (.*): dp.apps.rancher.io/$1
+      (.*): registry.lab.suse/dp.apps.rancher.io/$1
   registry.rancher.com:
     endpoint:
       - https://registry-test.lab.suse
     rewrite:
-      (.*): registry.rancher.com/$1
+      (.*): registry.lab.suse/registry.rancher.com/$1
   registry.suse.com:
     endpoint:
       - https://registry-test.lab.suse
     rewrite:
+      (.*): registry.lab.suse/registry.suse.com/$1

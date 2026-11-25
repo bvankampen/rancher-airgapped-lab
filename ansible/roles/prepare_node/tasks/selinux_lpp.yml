@@ -1,0 +1,15 @@
+- name: Ensure target local-path-provisoner data directory exists
+  ansible.builtin.file:
+    path: "{{ lpp_selinux_data_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Set persistent SELinux fcontext rule for local-path-provisoner data directory
+  community.general.sefcontext:
+    target: "{{ lpp_selinux_data_dir }}(/.*)?"
+    setype: "{{ lpp_selinux_type }}"
+    state: present
+
+- name: Apply SELinux context to local-path-provisoner data directory
+  ansible.builtin.command:
+    cmd: "restorecon -Rv {{ lpp_selinux_data_dir }}"
